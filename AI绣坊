@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI绣坊 - 木垒哈萨克刺绣数字创新平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary: #2c5ba0;
+            --secondary: #e74c3c;
+            --accent: #f1c40f;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --text: #333333;
+            --text-light: #7f8c8d;
+            --background: #f9fafb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px var(--shadow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(44, 91, 160, 0.2);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-light);
+            letter-spacing: 0;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        /* 英雄区样式 */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(44, 91, 160, 0.05) 0%, rgba(44, 91, 160, 0) 70%),
+                        radial-gradient(circle at 70% 30%, rgba(231, 76, 60, 0.05) 0%, rgba(231, 76, 60, 0) 70%);
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #4a7fcc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(44, 91, 160, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            margin-left: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(44, 91, 160, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(44, 91, 160, 0.1);
+        }
+        
+        .hero-decoration {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            height: 80%;
+            background: linear-gradient(135deg, var(--primary), #4a7fcc);
+            border-radius: 30px 0 0 30px;
+            opacity: 0.8;
+            box-shadow: -10px 10px 30px rgba(44, 91, 160, 0.3);
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .hero-decoration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 70% 20%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%),
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+            opacity: 0.6;
+        }
+        
+        .hero-decoration::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 15px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 15px);
+        }
+        
+        /* 特色区样式 */
+        .section {
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-light {
+            background-color: white;
+        }
+        
+        .section-dark {
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .section-dark .section-title h2 {
+            color: white;
+        }
+        
+        .section-dark .section-title p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            width: 100%;
+            opacity: 0.05;
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(44, 91, 160, 0.1), rgba(231, 76, 60, 0.1));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 28px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 20px rgba(44, 91, 160, 0.3);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .feature-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .feature-link i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-link:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* 展示区样式 */
+        .showcase {
+            position: relative;
+            background: linear-gradient(to bottom, #f9fafb 0%, #eef2f7 100%);
+        }
+        
+        .showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(44, 91, 160, 0.03) 0%, rgba(44, 91, 160, 0) 70%),
+                radial-gradient(circle at 80% 70%, rgba(231, 76, 60, 0.03) 0%, rgba(231, 76, 60, 0) 70%);
+            z-index: 0;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .showcase-item {
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .showcase-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .showcase-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .showcase-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .showcase-image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+            mix-blend-mode: overlay;
+        }
+        
+        .showcase-content {
+            padding: 1.5rem;
+        }
+        
+        .showcase-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .showcase-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .showcase-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: rgba(44, 91, 160, 0.1);
+            color: var(--primary);
+        }
+        
+        /* 关于我们样式 */
+        .about {
+            position: relative;
+            background-color: white;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(44, 91, 160, 0.03) 0%, rgba(44, 91, 160, 0) 50%),
+                radial-gradient(circle at 90% 90%, rgba(231, 76, 60, 0.03) 0%, rgba(231, 76, 60, 0) 50%);
+            z-index: 0;
+        }
+        
+        .about-container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .about-image-placeholder {
+            width: 100%;
+            height: 450px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), #4a7fcc);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(44, 91, 160, 0.2);
+        }
+        
+        .about-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 15px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 15px);
+            animation: backgroundMove 30s linear infinite;
+        }
+        
+        .about-image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+        }
+        
+        .about-content {
+            flex: 1;
+        }
+        
+        .about-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .about-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .about-text {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* 联系我们样式 */
+        .contact {
+            background-color: var(--dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(44, 91, 160, 0.2) 0%, rgba(44, 91, 160, 0) 70%),
+                radial-gradient(circle at 80% 80%, rgba(231, 76, 60, 0.2) 0%, rgba(231, 76, 60, 0) 70%);
+            z-index: 0;
+        }
+        
+        .contact-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .contact-description {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-logo {
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* 动画 */
+        @keyframes backgroundMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                height: 70px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-decoration {
+                display: none;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 5px 10px var(--shadow);
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .btn {
+                padding: 0.8rem 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 0 0 1rem 0;
+                text-align: center;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .feature-card, .showcase-item, .about-image-placeholder {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">绣</div>
+                <div class="logo-text">
+                    AI绣坊
+                    <span>木垒哈萨克刺绣数字创新平台</span>
+                </div>
+            </div>
+            
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#features">平台特色</a></li>
+                    <li><a href="#showcase">刺绣图库</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">AI赋能传统 <br>焕新千年非遗</h1>
+                <p class="hero-subtitle">运用人工智能技术，探索木垒哈萨克刺绣的数字化保护与创新应用，让传统工艺焕发新生命</p>
+                <div class="hero-buttons">
+                    <a href="#features" class="btn btn-primary">了解平台</a>
+                    <a href="#showcase" class="btn btn-secondary">探索刺绣</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-decoration"></div>
+    </section>
+    
+    <section class="section section-light" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>平台特色</h2>
+                <p>AI绣坊致力于运用现代科技手段保护和创新木垒哈萨克刺绣，通过数字化、智能化技术构建完整的非遗传承与创新体系</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="feature-title">数字档案库</h3>
+                    <p class="feature-description">采用高精度数字化技术，对木垒哈萨克刺绣实物、工艺流程和文化背景进行全面记录，构建完整的数字档案系统</p>
+                    <a href="#" class="feature-link">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="feature-title">在线学习平台</h3>
+                    <p class="feature-description">开发交互式教学内容，提供刺绣技艺的分步骤学习指导，降低学习门槛，让更多人能够轻松掌握传统工艺</p>
+                    <a href="#" class="feature-link">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">AI创新工坊</h3>
+                    <p class="feature-description">运用生成式AI技术，在保留传统元素的基础上创新刺绣图案设计，拓展传统工艺的表现边界和应用场景</p>
+                    <a href="#" class="feature-link">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="feature-title">沉浸式体验</h3>
+                    <p class="feature-description">结合VR/AR技术，打造沉浸式的刺绣文化体验空间，让用户身临其境感受刺绣艺术的魅力和文化内涵</p>
+                    <a href="#" class="feature-link">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section showcase" id="showcase">
+        <div class="container">
+            <div class="section-title">
+                <h2>刺绣图库</h2>
+                <p>探索木垒哈萨克刺绣的精美图案，了解每一针每一线背后的文化内涵与艺术价值</p>
+            </div>
+            
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            八瓣花纹
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">八瓣花纹</h3>
+                        <p class="showcase-description">象征丰收和幸福的传统图案，多用于毡房装饰和节日服饰，体现哈萨克族对美好生活的向往</p>
+                        <div class="showcase-tags">
+                            <span class="tag">植物纹样</span>
+                            <span class="tag">传统图案</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            盘旋纹
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">盘旋纹</h3>
+                        <p class="showcase-description">代表生命循环和永恒的几何图案，常见于装饰品和礼仪用品，线条流畅连贯，寓意生生不息</p>
+                        <div class="showcase-tags">
+                            <span class="tag">几何纹样</span>
+                            <span class="tag">象征图案</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            双鹿纹
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">双鹿纹</h3>
+                        <p class="showcase-description">象征繁荣和丰饶的动物图案，体现哈萨克族对自然的崇敬，在传统婚礼用品中尤为常见</p>
+                        <div class="showcase-tags">
+                            <span class="tag">动物纹样</span>
+                            <span class="tag">吉祥图案</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            AI创新图案
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">AI创新图案</h3>
+                        <p class="showcase-description">基于传统图案由AI生成的创新设计，保留传统元素同时融入现代审美，拓展应用场景</p>
+                        <div class="showcase-tags">
+                            <span class="tag">AI创新</span>
+                            <span class="tag">现代设计</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            山脉纹
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">山脉纹</h3>
+                        <p class="showcase-description">表现哈萨克族对自然山脉敬畏之情的图案，线条流畅而有力，常见于男性用品装饰</p>
+                        <div class="showcase-tags">
+                            <span class="tag">自然纹样</span>
+                            <span class="tag">传统图案</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-image">
+                        <div class="showcase-image-placeholder">
+                            现代融合设计
+                        </div>
+                    </div>
+                    <div class="showcase-content">
+                        <h3 class="showcase-title">现代融合设计</h3>
+                        <p class="showcase-description">将传统刺绣元素与现代设计语言相结合，创造具有时代感的新图案，适用于当代生活场景</p>
+                        <div class="showcase-tags">
+                            <span class="tag">创新设计</span>
+                            <span class="tag">文化融合</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-container">
+                <div class="about-image">
+                    <div class="about-image-placeholder"></div>
+                </div>
+                <div class="about-content">
+                    <h2 class="about-title">关于AI绣坊</h2>
+                    <p class="about-text">AI绣坊是由昌吉学院经济与管理学院家政学专业学生团队创立的木垒哈萨克刺绣数字化保护与创新平台。我们致力于通过现代科技手段保护和传承这一珍贵的非物质文化遗产。</p>
+                    <p class="about-text">项目以木垒哈萨克刺绣为核心，运用数字采集、人工智能等技术手段，构建刺绣数字档案库，开发创新设计工具，推动传统工艺与现代生活的融合。</p>
+                    <p class="about-text">团队核心成员包括罗苏岩、苏热亚·亚森、田贵林、任世玉、刘巧锦和达木·色力克江，在高婷老师的指导下开展工作。我们相信，通过科技的力量，传统工艺可以焕发新的生命力。</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">800+</div>
+                            <div class="stat-label">年历史传承</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">300+</div>
+                            <div class="stat-label">数字化图案</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">20+</div>
+                            <div class="stat-label">传承人合作</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">创新设计</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section contact" id="contact">
+        <div class="container contact-container">
+            <h2 class="contact-title">联系我们</h2>
+            <p class="contact-description">如果您对木垒哈萨克刺绣感兴趣，或希望与我们合作，欢迎通过以下方式联系我们</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+            
+            <div class="footer">
+                <div class="footer-logo">
+                    <div class="logo-text">AI绣坊</div>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#home" class="footer-link">首页</a>
+                    <a href="#features" class="footer-link">平台特色</a>
+                    <a href="#showcase" class="footer-link">刺绣图库</a>
+                    <a href="#about" class="footer-link">关于我们</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2024 AI绣坊 - 昌吉学院经济与管理学院 版权所有</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // 简单的交互脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 菜单切换
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            menuToggle.addEventListener('click', function() {
+                nav.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+            
+            // 滚动监听
+            const header = document.querySelector('header');
+            const scrollElements = document.querySelectorAll('.feature-card, .showcase-item, .about-image-placeholder');
+            
+            // 监听滚动，添加元素动画
+            function scrollCheck() {
+                // 头部导航栏变化
+                if (window.scrollY > 50) {
+                    header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                    header.style.height = '70px';
+                } else {
+                    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                    header.style.height = '80px';
+                }
+                
+                // 元素进入视图动画
+                scrollElements.forEach((el) => {
+                    if (isElementInViewport(el)) {
+                        el.classList.add('in-view');
+                    }
+                });
+            }
+            
+            // 检查元素是否在视口中
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // 页面加载时检查一次
+            scrollCheck();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', scrollCheck);
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 关闭移动端菜单
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    }
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
